@@ -21,6 +21,28 @@ app.use(cors());
 io.on("connection", (socket) => {
   console.log(`New User Connected ${socket.id}`);
 
+  //send data to client after 5 seconds
+  //   setTimeout(() => {
+  //     socket.emit(
+  //       "connector",
+  //       "send data with (emit) and received with (on) method"
+  //     );
+  //     // sent message after 5 second with message event and emit method
+  //     socket.emit("message", "Finally I sent a message from socket server");
+  //   }, 5000);
+
+  //socket.emit("message", "message is pre define method in socket.io");
+
+  setInterval(() => {
+    const date = new Date();
+    socket.emit("clock", date.toLocaleTimeString());
+  }, 1000);
+
+  //received message from server
+  socket.on("message", (msg) => {
+    console.log(msg);
+  });
+
   socket.on("disconnect", () => {
     console.log(`User Disconnected ${socket.id}`);
   });
